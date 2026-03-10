@@ -25,7 +25,10 @@ jobs:
             -project DesktopClock.xcodeproj \
             -scheme DesktopClock \
             -configuration Release \
+            -destination "generic/platform=macOS" \
             -archivePath "$RUNNER_TEMP/DesktopClock.xcarchive" \
+            ARCHS="arm64 x86_64" \
+            ONLY_ACTIVE_ARCH=NO \
             archive
 
       - name: Export app
