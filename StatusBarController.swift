@@ -138,6 +138,8 @@ final class StatusBarController: NSObject {
     }
 
     @objc private func showColorPicker() {
+        NSApp.activate(ignoringOtherApps: true)
+
         let colorPanel = NSColorPanel.shared
         colorPanel.color = settings.nsTextColor
         colorPanel.mode = .wheel
@@ -179,7 +181,7 @@ final class StatusBarController: NSObject {
         accessory.addSubview(bField)
 
         colorPanel.accessoryView = accessory
-        colorPanel.orderFront(nil)
+        colorPanel.makeKeyAndOrderFront(nil)
     }
 
     @objc private func colorDidChange(_ sender: NSColorPanel) {
