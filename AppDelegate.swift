@@ -28,6 +28,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         // Apply initial states
         applyClickThrough()
         applyPositionLock()
+        syncLaunchAtLoginState()
 
         // Observe settings changes
         settings.objectWillChange
@@ -87,5 +88,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             let fittingSize = hostingView.fittingSize
             panel.setContentSize(fittingSize)
         }
+    }
+
+    private func syncLaunchAtLoginState() {
+        settings.launchAtLogin = LoginItemManager.currentStatus()
     }
 }

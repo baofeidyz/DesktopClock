@@ -8,7 +8,7 @@ struct ClockView: View {
 
     var body: some View {
         Text(formattedTime)
-            .font(.system(size: 24, weight: .medium, design: .monospaced))
+            .font(.system(size: CGFloat(settings.fontSize), weight: .medium, design: .monospaced))
             .foregroundColor(settings.textColor)
             .shadow(color: .black.opacity(0.8), radius: 2, x: 1, y: 1)
             .padding(.horizontal, 12)

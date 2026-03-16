@@ -19,6 +19,19 @@
 			membershipExceptions = (
 				Info.plist,
 				LICENSE,
+				".codex",
+				".codex/",
+				build,
+				"build/",
+				"build/Build",
+				"build/DerivedData",
+				"build/Logs",
+				"build/ModuleCache.noindex",
+				"build/CompilationCache.noindex",
+				"build/SDKStatCaches.noindex",
+				"build/info.plist",
+				openspec,
+				"openspec/",
 				"openspec/changes/core-clock-app/.openspec.yaml",
 				"openspec/changes/core-clock-app/design.md",
 				"openspec/changes/core-clock-app/proposal.md",
@@ -162,6 +175,22 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				EXCLUDED_RESOURCE_FILE_NAMES = (
+					build,
+					"build/**",
+					".codex",
+					".codex/**",
+					openspec,
+					"openspec/**",
+				);
+				EXCLUDED_SOURCE_FILE_NAMES = (
+					build,
+					"build/**",
+					".codex",
+					".codex/**",
+					openspec,
+					"openspec/**",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -190,6 +219,22 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_HARDENED_RUNTIME = YES;
+				EXCLUDED_RESOURCE_FILE_NAMES = (
+					build,
+					"build/**",
+					".codex",
+					".codex/**",
+					openspec,
+					"openspec/**",
+				);
+				EXCLUDED_SOURCE_FILE_NAMES = (
+					build,
+					"build/**",
+					".codex",
+					".codex/**",
+					openspec,
+					"openspec/**",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";

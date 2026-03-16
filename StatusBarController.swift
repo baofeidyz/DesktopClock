@@ -41,6 +41,16 @@ final class StatusBarController: NSObject {
         lockItem.state = settings.isPositionLocked ? .on : .off
         menu.addItem(lockItem)
 
+        // Launch at login toggle
+        let launchAtLoginItem = NSMenuItem(
+            title: "开机自启动",
+            action: #selector(toggleLaunchAtLogin),
+            keyEquivalent: ""
+        )
+        launchAtLoginItem.target = self
+        launchAtLoginItem.state = settings.launchAtLogin ? .on : .off
+        menu.addItem(launchAtLoginItem)
+
         menu.addItem(NSMenuItem.separator())
 
         // Time format submenu
@@ -72,6 +82,41 @@ final class StatusBarController: NSObject {
         let formatMenuItem = NSMenuItem(title: "时间格式", action: nil, keyEquivalent: "")
         formatMenuItem.submenu = formatSubmenu
         menu.addItem(formatMenuItem)
+
+        // Font size submenu
+        let fontSizeSubmenu = NSMenu()
+        let fontSizes: [(label: String, size: Double)] = [
+            ("小 (16)", 16),
+            ("中 (24)", 24),
+            ("大 (36)", 36),
+            ("超大 (48)", 48),
+            ("巨大 (72)", 72),
+        ]
+        for preset in fontSizes {
+            let item = NSMenuItem(
+                title: preset.label,
+                action: #selector(selectFontSize(_:)),
+                keyEquivalent: ""
+            )
+            item.target = self
+            item.representedObject = preset.size
+            if settings.fontSize == preset.size {
+                item.state = .on
+            }
+            fontSizeSubmenu.addItem(item)
+        }
+        fontSizeSubmenu.addItem(NSMenuItem.separator())
+        let customFontSizeItem = NSMenuItem(
+            title: "自定义大小...",
+            action: #selector(showCustomFontSizeInput),
+            keyEquivalent: ""
+        )
+        customFontSizeItem.target = self
+        fontSizeSubmenu.addItem(customFontSizeItem)
+
+        let fontSizeMenuItem = NSMenuItem(title: "文字大小", action: nil, keyEquivalent: "")
+        fontSizeMenuItem.submenu = fontSizeSubmenu
+        menu.addItem(fontSizeMenuItem)
 
         // Text color
         let colorItem = NSMenuItem(
@@ -105,9 +150,43 @@ final class StatusBarController: NSObject {
         buildMenu()
     }
 
+    @objc private func toggleLaunchAtLogin() {
+        let target = !settings.launchAtLogin
+        applyLaunchAtLogin(target)
+        buildMenu()
+    }
+
     @objc private func selectPresetFormat(_ sender: NSMenuItem) {
         if let format = sender.representedObject as? String {
             settings.timeFormat = format
+            buildMenu()
+        }
+    }
+
+    @objc private func selectFontSize(_ sender: NSMenuItem) {
+        if let size = sender.representedObject as? Double {
+            settings.fontSize = size
+            buildMenu()
+        }
+    }
+
+    @objc private func showCustomFontSizeInput() {
+        let alert = NSAlert()
+        alert.messageText = "自定义文字大小"
+        alert.informativeText = "输入字体大小（8 ~ 200）"
+        alert.alertStyle = .informational
+        alert.addButton(withTitle: "确定")
+        alert.addButton(withTitle: "取消")
+
+        let textField = NSTextField(frame: NSRect(x: 0, y: 0, width: 100, height: 24))
+        textField.intValue = Int32(settings.fontSize)
+        textField.placeholderString = "24"
+        alert.accessoryView = textField
+
+        let response = alert.runModal()
+        if response == .alertFirstButtonReturn {
+            let value = max(8, min(200, Double(textField.integerValue)))
+            settings.fontSize = value
             buildMenu()
         }
     }
@@ -221,5 +300,31 @@ extension StatusBarController: NSTextFieldDelegate {
         }
         // Sync the color panel
         NSColorPanel.shared.color = settings.nsTextColor
+    }
+
+    private func applyLaunchAtLogin(_ enabled: Bool) {
+        guard LoginItemManager.isSupported else {
+            settings.launchAtLogin = false
+            showAlert(title: "不支持开机自启动", message: "当前系统版本不支持该功能。")
+            return
+        }
+
+        do {
+            try LoginItemManager.setEnabled(enabled)
+            settings.launchAtLogin = enabled
+        } catch {
+            settings.launchAtLogin = LoginItemManager.currentStatus()
+            showAlert(title: "开机自启动设置失败", message: error.localizedDescription)
+        }
+    }
+
+    private func showAlert(title: String, message: String) {
+        NSApp.activate(ignoringOtherApps: true)
+        let alert = NSAlert()
+        alert.messageText = title
+        alert.informativeText = message
+        alert.alertStyle = .warning
+        alert.addButton(withTitle: "确定")
+        alert.runModal()
     }
 }
