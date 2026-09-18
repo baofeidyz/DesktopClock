@@ -7,18 +7,40 @@ struct ClockView: View {
     private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
     var body: some View {
-        Text(formattedTime)
-            .font(.system(size: CGFloat(settings.fontSize), weight: .medium, design: .monospaced))
-            .foregroundColor(settings.textColor)
-            .shadow(color: .black.opacity(0.8), radius: 2, x: 1, y: 1)
-            .lineLimit(1)
-            .minimumScaleFactor(0.4)
-            .allowsTightening(true)
+        timestampView
             .padding(.horizontal, 12)
             .padding(.vertical, 6)
             .onReceive(timer) { time in
                 currentTime = time
             }
+    }
+
+    @ViewBuilder
+    private var timestampView: some View {
+        if #available(macOS 26.0, *) {
+            Text(formattedTime)
+                .font(.system(size: CGFloat(settings.fontSize), weight: .semibold, design: .monospaced))
+                .foregroundStyle(.primary)
+                .lineLimit(1)
+                .minimumScaleFactor(0.4)
+                .allowsTightening(true)
+                // Keep the text optically centered inside the bezel. Apple recommends
+                // about 12 points of padding around bezel-style controls.
+                .padding(.horizontal, 12)
+                .padding(.vertical, 6)
+                .glassEffect(.regular.interactive(), in: .capsule)
+                .contentTransition(.identity)
+                .transaction { transaction in
+                    transaction.animation = nil
+                }
+        } else {
+            Text(formattedTime)
+                .font(.system(size: CGFloat(settings.fontSize), weight: .semibold, design: .monospaced))
+                .foregroundStyle(.primary)
+                .lineLimit(1)
+                .minimumScaleFactor(0.4)
+                .allowsTightening(true)
+        }
     }
 
     private var formattedTime: String {

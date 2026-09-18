@@ -5,13 +5,14 @@ import Combine
 @MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate {
     private var panel: FloatingPanel!
+    private var hostingView: DraggableHostingView<ClockView>!
     private var statusBarController: StatusBarController!
     private let settings = ClockSettings.shared
     private var cancellables = Set<AnyCancellable>()
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         let clockView = ClockView(settings: settings)
-        let hostingView = DraggableHostingView(rootView: clockView)
+        hostingView = DraggableHostingView(rootView: clockView)
         hostingView.isWindowDraggingEnabled = { [weak settings] in
             guard let settings else { return false }
             return !settings.isPositionLocked && !settings.isClickThroughEnabled
@@ -87,7 +88,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func resizeToFit() {
-        if let hostingView = panel.contentView as? NSHostingView<ClockView> {
+        if let hostingView {
             let fittingSize = hostingView.fittingSize
             let maxWidth = max(80, currentVisibleFrame().width)
             let contentSize = NSSize(
