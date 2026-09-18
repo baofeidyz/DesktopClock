@@ -11,6 +11,9 @@ struct ClockView: View {
             .font(.system(size: CGFloat(settings.fontSize), weight: .medium, design: .monospaced))
             .foregroundColor(settings.textColor)
             .shadow(color: .black.opacity(0.8), radius: 2, x: 1, y: 1)
+            .lineLimit(1)
+            .minimumScaleFactor(0.4)
+            .allowsTightening(true)
             .padding(.horizontal, 12)
             .padding(.vertical, 6)
             .onReceive(timer) { time in

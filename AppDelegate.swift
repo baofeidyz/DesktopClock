@@ -11,7 +11,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         let clockView = ClockView(settings: settings)
-        let hostingView = NSHostingView(rootView: clockView)
+        let hostingView = DraggableHostingView(rootView: clockView)
+        hostingView.isWindowDraggingEnabled = { [weak settings] in
+            guard let settings else { return false }
+            return !settings.isPositionLocked && !settings.isClickThroughEnabled
+        }
         hostingView.frame = NSRect(x: 0, y: 0, width: 200, height: 50)
 
         let panelRect = NSRect(x: 0, y: 0, width: 200, height: 50)
@@ -19,8 +23,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         panel.contentView = hostingView
 
         // Size to fit content
-        hostingView.setFrameSize(hostingView.fittingSize)
-        panel.setContentSize(hostingView.fittingSize)
+        resizeToFit()
 
         // Restore or set default position
         restoreWindowPosition()
@@ -86,8 +89,19 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private func resizeToFit() {
         if let hostingView = panel.contentView as? NSHostingView<ClockView> {
             let fittingSize = hostingView.fittingSize
-            panel.setContentSize(fittingSize)
+            let maxWidth = max(80, currentVisibleFrame().width)
+            let contentSize = NSSize(
+                width: min(fittingSize.width, maxWidth),
+                height: fittingSize.height
+            )
+
+            hostingView.setFrameSize(contentSize)
+            panel.setContentSize(contentSize)
         }
+    }
+
+    private func currentVisibleFrame() -> NSRect {
+        panel.screen?.visibleFrame ?? NSScreen.main?.visibleFrame ?? .zero
     }
 
     private func syncLaunchAtLoginState() {
