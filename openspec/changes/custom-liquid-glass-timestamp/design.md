@@ -31,6 +31,7 @@ The timestamp updates every second, supports user-selected date formats and font
 - **Do not override system appearance.** Leave the native glass untinted and use the system primary foreground so Light/Dark/Automatic appearance and the user's Liquid Glass settings remain authoritative.
 - **Keep the timestamp optically substantial.** Use a semibold monospaced font so the native glass material has enough interior area to remain visible.
 - **Keep the timestamp optically substantial.** Use a semibold monospaced font so the glass and refractive displacement have enough interior area to remain visible.
+- **Use the native numeric content transition.** Bind a short smooth animation to the formatted timestamp value and use an increasing `numericText` transition so changing digits roll without applying a global animation to window or settings state.
 
 ## Risks / Trade-offs
 

@@ -23,3 +23,8 @@
 
 - [x] 4.1 Build the macOS application with the current deployment target and the Liquid Glass-capable SDK
 - [x] 4.2 Validate the OpenSpec change, review the renderer output paths, and run `git diff --check`
+
+## 5. Numeric Transition
+
+- [x] 5.1 Animate displayed timestamp changes with the native increasing numeric content transition
+- [x] 5.2 Build the application, validate the OpenSpec change, and check the resulting diff

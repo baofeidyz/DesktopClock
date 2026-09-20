@@ -31,6 +31,18 @@ The glass mask and contour layers SHALL remain synchronized with the current for
 - **WHEN** the user changes the time format or font size
 - **THEN** the renderer SHALL rebuild its glyph geometry and preserve the glass-only-inside-glyphs rule
 
+### Requirement: Timestamp digits animate between values
+On Liquid Glass-capable macOS versions, the timestamp SHALL use the native numeric content transition when its displayed value changes.
+
+#### Scenario: Displayed time advances
+- **WHEN** a timer update changes one or more displayed digits
+- **THEN** the changed numeric content SHALL transition in the increasing direction
+- **AND** the animation SHALL remain confined to the timestamp rather than animating unrelated window state
+
+#### Scenario: Timestamp value is unchanged
+- **WHEN** a timer tick does not change the formatted timestamp
+- **THEN** the timestamp SHALL not start a redundant numeric transition
+
 ### Requirement: Glass remains readable and accessible
 The timestamp SHALL remain legible over ordinary desktop backgrounds and SHALL respect system settings that reduce transparency or increase contrast.
 

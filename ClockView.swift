@@ -1,3 +1,4 @@
+import Combine
 import SwiftUI
 
 struct ClockView: View {
@@ -29,10 +30,8 @@ struct ClockView: View {
                 .padding(.horizontal, 12)
                 .padding(.vertical, 6)
                 .glassEffect(.regular.interactive(), in: .capsule)
-                .contentTransition(.identity)
-                .transaction { transaction in
-                    transaction.animation = nil
-                }
+                .contentTransition(.numericText(countsDown: false))
+                .animation(.smooth(duration: 0.35), value: formattedTime)
         } else {
             Text(formattedTime)
                 .font(.system(size: CGFloat(settings.fontSize), weight: .semibold, design: .monospaced))
