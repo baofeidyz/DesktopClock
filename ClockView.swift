@@ -19,23 +19,34 @@ struct ClockView: View {
     @ViewBuilder
     private var timestampView: some View {
         if #available(macOS 26.0, *) {
-            Text(formattedTime)
-                .font(.system(size: CGFloat(settings.fontSize), weight: .semibold, design: .monospaced))
-                .foregroundStyle(.primary)
-                .lineLimit(1)
-                .minimumScaleFactor(0.4)
-                .allowsTightening(true)
-                // Keep the text optically centered inside the bezel. Apple recommends
-                // about 12 points of padding around bezel-style controls.
-                .padding(.horizontal, 12)
-                .padding(.vertical, 6)
-                .glassEffect(.regular.interactive(), in: .capsule)
-                .contentTransition(.numericText(countsDown: false))
-                .animation(.smooth(duration: 0.35), value: formattedTime)
+            if settings.isLiquidGlassEnabled {
+                Text(formattedTime)
+                    .font(.system(size: CGFloat(settings.fontSize), weight: .semibold, design: .monospaced))
+                    .foregroundStyle(settings.textColor)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.4)
+                    .allowsTightening(true)
+                    // Keep the text optically centered inside the bezel. Apple recommends
+                    // about 12 points of padding around bezel-style controls.
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 6)
+                    .glassEffect(.regular.interactive(), in: .capsule)
+                    .contentTransition(.numericText(countsDown: false))
+                    .animation(.smooth(duration: 0.35), value: formattedTime)
+            } else {
+                Text(formattedTime)
+                    .font(.system(size: CGFloat(settings.fontSize), weight: .semibold, design: .monospaced))
+                    .foregroundStyle(settings.textColor)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.4)
+                    .allowsTightening(true)
+                    .contentTransition(.numericText(countsDown: false))
+                    .animation(.smooth(duration: 0.35), value: formattedTime)
+            }
         } else {
             Text(formattedTime)
                 .font(.system(size: CGFloat(settings.fontSize), weight: .semibold, design: .monospaced))
-                .foregroundStyle(.primary)
+                .foregroundStyle(settings.textColor)
                 .lineLimit(1)
                 .minimumScaleFactor(0.4)
                 .allowsTightening(true)

@@ -53,6 +53,18 @@ final class StatusBarController: NSObject {
 
         menu.addItem(NSMenuItem.separator())
 
+        // Liquid Glass toggle
+        let liquidGlassItem = NSMenuItem(
+            title: "Liquid Glass 效果",
+            action: #selector(toggleLiquidGlass),
+            keyEquivalent: ""
+        )
+        liquidGlassItem.target = self
+        liquidGlassItem.state = settings.isLiquidGlassEnabled ? .on : .off
+        menu.addItem(liquidGlassItem)
+
+        menu.addItem(NSMenuItem.separator())
+
         // Time format submenu
         let formatSubmenu = NSMenu()
         for preset in ClockSettings.presetFormats {
@@ -153,6 +165,11 @@ final class StatusBarController: NSObject {
     @objc private func toggleLaunchAtLogin() {
         let target = !settings.launchAtLogin
         applyLaunchAtLogin(target)
+        buildMenu()
+    }
+
+    @objc private func toggleLiquidGlass() {
+        settings.isLiquidGlassEnabled.toggle()
         buildMenu()
     }
 

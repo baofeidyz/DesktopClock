@@ -28,10 +28,11 @@ The timestamp updates every second, supports user-selected date formats and font
 - **Keep one rendered timestamp, not one glass view per character.** Render the complete formatted string into one mask so colons, spaces, and changing digits do not create excessive glass containers or unstable morphing. This also limits per-frame rendering cost.
 - **Respect system accessibility settings.** When Reduce Transparency or Increase Contrast is active, use a more opaque, high-contrast fallback while preserving the same glyph geometry. Do not force transparency when the system asks for reduced effects.
 - **Prefer the native Liquid Glass renderer.** On macOS 26+/27, use SwiftUI's `glassEffect` directly on the timestamp view so the system owns material thickness, lighting, and background response. Do not capture the desktop or synthesize a lens effect in application code.
-- **Do not override system appearance.** Leave the native glass untinted and use the system primary foreground so Light/Dark/Automatic appearance and the user's Liquid Glass settings remain authoritative.
+- **Keep glass untinted while honoring the clock color.** Leave the native glass material untinted, but apply the user's persisted text color to the timestamp foreground in both glass and text-only modes.
 - **Keep the timestamp optically substantial.** Use a semibold monospaced font so the native glass material has enough interior area to remain visible.
 - **Keep the timestamp optically substantial.** Use a semibold monospaced font so the glass and refractive displacement have enough interior area to remain visible.
 - **Use the native numeric content transition.** Bind a short smooth animation to the formatted timestamp value and use an increasing `numericText` transition so changing digits roll without applying a global animation to window or settings state.
+- **Make glass optional and persistent.** Store a default-on Liquid Glass preference with the other clock settings. When disabled, render the same animated timestamp without glass-specific padding or `glassEffect`, and expose the state as a checkmarked status-bar menu item.
 
 ## Risks / Trade-offs
 

@@ -9,12 +9,13 @@ final class ClockSettings: ObservableObject {
     @AppStorage("windowPositionY") var windowPositionY: Double = -1
     @AppStorage("isPositionLocked") var isPositionLocked: Bool = false
     @AppStorage("isClickThroughEnabled") var isClickThroughEnabled: Bool = true
+    @AppStorage("isLiquidGlassEnabled") var isLiquidGlassEnabled: Bool = true
     @AppStorage("launchAtLogin") var launchAtLogin: Bool = false
     @AppStorage("fontSize") var fontSize: Double = 24
 
-    @AppStorage("textColorRed") var textColorRed: Double = 1.0
-    @AppStorage("textColorGreen") var textColorGreen: Double = 1.0
-    @AppStorage("textColorBlue") var textColorBlue: Double = 1.0
+    @AppStorage("textColorRed") var textColorRed: Double = 0.0
+    @AppStorage("textColorGreen") var textColorGreen: Double = 0.0
+    @AppStorage("textColorBlue") var textColorBlue: Double = 0.0
 
     var textColor: Color {
         Color(red: textColorRed, green: textColorGreen, blue: textColorBlue)

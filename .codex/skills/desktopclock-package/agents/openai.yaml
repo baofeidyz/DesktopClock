@@ -1,0 +1,4 @@
+interface:
+  display_name: "DesktopClock Package"
+  short_description: "Build and package DesktopClock release artifacts"
+  default_prompt: "Use $desktopclock-package to build and package DesktopClock, then print the exact artifact path."

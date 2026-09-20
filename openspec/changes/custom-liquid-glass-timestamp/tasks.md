@@ -28,3 +28,20 @@
 
 - [x] 5.1 Animate displayed timestamp changes with the native increasing numeric content transition
 - [x] 5.2 Build the application, validate the OpenSpec change, and check the resulting diff
+
+## 6. Liquid Glass Preference
+
+- [x] 6.1 Add a default-on persistent Liquid Glass setting
+- [x] 6.2 Add a checkmarked status-bar menu item that toggles the setting
+- [x] 6.3 Render animated text without the glass capsule when the setting is disabled
+- [x] 6.4 Build the application, validate the OpenSpec change, and check the resulting diff
+
+## 7. Text Color Integration
+
+- [x] 7.1 Apply the persisted text color in glass, text-only, and older-system rendering paths
+- [x] 7.2 Build the application, validate the OpenSpec change, and check the resulting diff
+
+## 8. Default Text Color
+
+- [x] 8.1 Set the unsaved text color default to black RGB `0, 0, 0`
+- [x] 8.2 Build the application, validate the OpenSpec change, and check the resulting diff

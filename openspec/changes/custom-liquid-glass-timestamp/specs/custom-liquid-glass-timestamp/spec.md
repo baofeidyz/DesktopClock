@@ -43,6 +43,38 @@ On Liquid Glass-capable macOS versions, the timestamp SHALL use the native numer
 - **WHEN** a timer tick does not change the formatted timestamp
 - **THEN** the timestamp SHALL not start a redundant numeric transition
 
+### Requirement: Liquid Glass can be disabled
+The application SHALL provide a persistent status-bar menu option that controls whether the timestamp uses Liquid Glass, with the effect enabled by default.
+
+#### Scenario: User disables Liquid Glass
+- **WHEN** the user turns off the Liquid Glass menu option
+- **THEN** the timestamp SHALL render only its text without the glass capsule
+- **AND** numeric transitions, time format, font size, and window interactions SHALL remain functional
+
+#### Scenario: User enables Liquid Glass
+- **WHEN** the user turns on the Liquid Glass menu option on a supported macOS version
+- **THEN** the timestamp SHALL render with the native glass capsule
+- **AND** the menu item SHALL display a checkmark
+
+#### Scenario: Application relaunches
+- **WHEN** the application is launched after the user changed the Liquid Glass option
+- **THEN** the application SHALL restore the previously selected state
+
+### Requirement: Selected text color affects every rendering mode
+The timestamp SHALL use the persisted color selected from the status-bar color control regardless of whether Liquid Glass is enabled.
+
+#### Scenario: No text color has been saved
+- **WHEN** the application starts without an existing text color preference
+- **THEN** the timestamp SHALL default to black with RGB components `0, 0, 0`
+
+#### Scenario: Color changes while Liquid Glass is enabled
+- **WHEN** the user selects a different text color while Liquid Glass is enabled
+- **THEN** the timestamp foreground SHALL update to the selected color without removing the glass capsule
+
+#### Scenario: Color changes in text-only mode
+- **WHEN** the user selects a different text color while Liquid Glass is disabled or unavailable
+- **THEN** the plain timestamp SHALL update to the selected color
+
 ### Requirement: Glass remains readable and accessible
 The timestamp SHALL remain legible over ordinary desktop backgrounds and SHALL respect system settings that reduce transparency or increase contrast.
 
